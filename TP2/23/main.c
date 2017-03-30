@@ -5,16 +5,34 @@
 int numLegajo ();
 int validarEnt (int dato, int inferior, int superior);
 int sueldoNeto();
+int edad();
 char sexo();
+int ejercicio1(char sexo, int sueldo);
 
 int main()
 {
     int legajo;
     int sueldo;
     int sexoA;
-    legajo = numLegajo();
-    sueldo = sueldoNeto();
-    sexoA = sexo();
+    int edadA;
+    int contadorH = 0;
+    int contadorM = 0;
+    int contadorM38 = 0;
+
+    char respuesta = 's';
+
+    while(respuesta == 's')
+    {
+        legajo = numLegajo();
+        sueldo = sueldoNeto();
+        sexoA = sexo();
+        edadA = edad();
+        contadorH = ejercicio1(sexoA, sueldo);
+
+        printf("Desea seguir? (s/n) : ");
+        respuesta = tolower(getch());
+    }
+
 
 
     return 0;
@@ -56,13 +74,28 @@ char sexo()
 {
     char sexo;
     printf("Ingrese su sexo: ");
-    sexo = getch();
+    sexo = tolower(getch());
 
-    while(sexo != "f" && sexo != "m")
+    while(sexo != 'f' && sexo != 'm')
     {
         printf("Por favor ingrese 'f' o 'm': ");
-        sexo = getch();
+        sexo = tolower(getch());
     }
     printf("Su sexo es: %c", sexo);
     return sexo;
+}
+
+int edad()
+{
+    int edad;
+    printf("Ingrese su edad: ");
+    scanf("%d", &edad);
+    edad = validarEnt(edad, 18, 65);
+    printf("Su edad es: %d", edad);
+    return edad;
+}
+
+int ejercicio1(char sexo, int sueldo)
+{
+    if(sexo == 'm')
 }
