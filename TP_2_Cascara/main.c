@@ -3,23 +3,23 @@
 #include "funciones.h"
 #define P 20
 
-typedef struct
-{
-    char nombre[20];
-    long dni;
-    int edad;
-    char estado;
 
-}ePersona;
 
+void inicializarEstado(ePersona persona[], int tam);
+int espacio(ePersona persona[], int tam);
 
 int main()
 {
+
+
     ePersona personas[P];
+    inicializarEstado(personas, P);
+
     char seguir='s', respuesta;
-    int opcion=0;
-    int i;
-    long dni;
+    int opcion=0, lugar;
+    int i, j;
+    int long dni;
+    char aux[20];
 
     while(seguir=='s')
     {
@@ -33,53 +33,98 @@ int main()
 
         switch(opcion)
         {
-            case 1:
+        case 1:
+            lugar = espacio(personas, P);
+            if(lugar != -1)
+            {
                 for(i=0; i<P; i++)
                 {
-
+                    printf("Ingrese el documento: ");
+                    scanf("%d", &personas[lugar].dni);
+                    fflush(stdin);
                     printf("Ingrese el nombre: ");
-                    scanf("%s", &personas[i].nombre);
+                    scanf("%s", &personas[lugar].nombre);
                     fflush(stdin);
                     printf("Ingrese edad: ");
-                    scanf("%d", &personas[i].edad);
+                    scanf("%d", &personas[lugar].edad);
                     fflush(stdin);
-                    printf("Ingrese el documento: ");
-                    scanf("%s", &personas[i].dni);
-                    fflush(stdin);
+                    personas[lugar].estado = 1;
+
                     printf("%d \t %s \t %d \n", personas[i].dni, personas[i].nombre, personas[i].edad);
                     break;
                 }
-                break;
-            case 2:
-                    printf("Ingrese el documento que desea eliminar: ");
-                    scanf("%d", &dni);
-                    for(i=0; i<P; i++)
+            }
+            else
+            {
+                printf("No hay mas espacio. \n");
+            }
+            break;
+        case 2:
+            printf("Ingrese el documento que desea eliminar: ");
+            scanf("%d", &dni);
+            for(i=0; i<P; i++)
+            {
+                if(personas[i].estado == 1 && dni == personas[i].dni)
+                {
+                    printf("%d \t %s \t %d \n", personas[i].dni, personas[i].nombre, personas[i].edad);
+                    printf("Esta seguro que desea eliminar?(s/n)");
+                    respuesta = getche();
+                    if(respuesta == 's')
                     {
-                        if(personas[i].estado == 1 && dni == personas[i].dni)
-                        {
-                            printf("%d \t %s \t %d \n", personas[i].dni, personas[i].nombre, personas[i].edad);
-                            printf("Esta seguro que desea eliminar?(s/n)");
-                            respuesta = getche();
-                            if(respuesta == 's')
-                            {
-                                personas[i].estado = 0;
-                            }
-                            else
-                            {
-                                printf("Accion cancelada.");
-                            }
-                        }
+                        personas[i].estado = 0;
                     }
-                break;
-            case 3:
-                break;
-            case 4:
-                break;
-            case 5:
-                seguir = 'n';
-                break;
+                    else
+                    {
+                        printf("Accion cancelada.");
+                    }
+                }
+            }
+            break;
+        case 3:
+
+
+            for(i=0; i<P; i++)
+            {
+                if(personas[i].estado == 1)
+                {
+                    printf("%d \t %s \t %d \t \n", personas[i].dni, personas[i].nombre, personas[i].edad);
+                }
+
+            }
+            break;
+        case 4:
+            break;
+        case 5:
+            seguir = 'n';
+            break;
         }
     }
 
     return 0;
+}
+
+void inicializarEstado(ePersona persona[], int tam)
+{
+    int i;
+
+    for(i=0; i<tam; i++)
+    {
+        persona[i].estado = 0;
+    }
+}
+
+int espacio(ePersona persona[], int tam)
+{
+    int lugar = -1, i;
+
+    for(i=0; i<tam; i++)
+    {
+        if(persona[i].estado == 0)
+        {
+            lugar = i;
+            break;
+        }
+
+        return lugar;
+    }
 }
